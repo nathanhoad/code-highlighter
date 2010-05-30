@@ -8,6 +8,8 @@
 	<script type="text/javascript" src="css.js"></script>
 	<script type="text/javascript" src="html.js"></script>
 	<script type="text/javascript" src="ruby.js"></script>
+	<script type="text/javascript" src="php.js"></script>
+	<script type="text/javascript" src="haml.js"></script>
 	<style type="text/css">
 	body {
 		background : #EEE;
@@ -41,23 +43,35 @@
 
 	/* end of page css - below is for the code highlighter */
 
-	.javascript .comment, .ruby .comment {
+  code .variable {
+	  color : #974C81;
+	}
+	
+	code .module_class {
+	  color : #900099;
+	}
+	
+	code .symbol {
+	  color : #266799;
+	}
+
+	code .comment {
 		color : green;
 	}
 
-	.javascript .string, .ruby .string {
+	code .string {
 		color : teal;
 	}
 
-	.javascript .keywords, .ruby .keywords {
+	code .keywords {
 		color : navy;
 	}
 
-	.javascript .global {
+	code .global {
 		color : blue;
 	}
 
-	.javascript .brackets, .ruby .brackets {
+	code .brackets {
 		color : navy;
 	}
 
@@ -82,7 +96,7 @@
 		color :green;
 	}
 
-	.html .tag {
+	.html .tag, .haml .tag {
 		color : purple;
 	}
 
@@ -95,7 +109,7 @@
 		color : navy;
 	}
 
-	.html .doctype {
+	.html .doctype, .haml .doctype {
 		color : teal;
 	}
 	</style>
@@ -195,35 +209,73 @@ window.onload = initialiseLinks();</code></pre>
 
 <h2>Ruby Example</h2>
 <pre><code class="ruby">def login
-   if !@params[:key].nil? && @attendee = Attendee.find_by_hashkey(@params[:key])
-      # coming in with valid key
-      if !@attendee.password_set?
-        # no password yet, let them in
-        @session[:attendee] = @attendee
-        redirect_to :action => 'preferences', :id => @attendee.event.uri
-      else
-        @event = @attendee.event
-      end
-    else 
-      # if no key we need to know the event
-      @event = get_event_by_id_or_uri
-    end
-    
-    if @request.post?
-      # posted login details
-      if @attendee = Attendee.authenticate(@event, @params[:email], @params[:password])
-         @session[:attendee] = @attendee
-         redirect_to :action => 'preferences', :id => @event.uri
-      else
-        flash['notice'] = 'Login unsuccessful.'
-      end
-    end
-    
-    if @attendee.nil?
-      @email = ''
+  useless_thing = Useless::Thing
+  
+  if !@params[:key].nil? && @attendee = Attendee.find_by_hashkey(@params[:key])
+    # coming in with valid key
+    if !@attendee.password_set?
+      # no password yet, let them in
+      @session[:attendee] = @attendee
+      redirect_to :action => 'preferences', :id => @attendee.event.uri
     else
-      @email = @attendee.email
+      @event = @attendee.event
     end
-  end</code></pre>
+  else 
+    # if no key we need to know the event
+    @event = get_event_by_id_or_uri
+  end
+  
+  if @request.post?
+    # posted login details
+    if @attendee = Attendee.authenticate(@event, @params[:email], @params[:password])
+       @session[:attendee] = @attendee
+       redirect_to :action => 'preferences', :id => @event.uri
+    else
+      flash['notice'] = 'Login unsuccessful.'
+    end
+  end
+  
+  if @attendee.nil?
+    @email = ''
+  else
+    @email = @attendee.email
+  end
+end</code></pre>
+
+<h2>PHP Example</h2>
+<pre><code class="php">class Thing extends OtherThing
+{
+    protected $name;
+    
+
+    /**
+     * Create a new Thing
+     * 
+     * @param string $name The name of the thing
+     */
+    public function __construct ($name)
+    {
+        if ($name == "Nathan") {
+            $this->name = "Awesome sauce";
+        } else {
+            $this->name = ucwords($name);
+        }
+    }
+}</code></pre>
+
+<h2>HAML Example</h2>
+<pre><code class="haml">!!! Strict
+%html
+  %head
+    %title
+      This is the title
+    %link{:rel => "shortcut icon", :type => "image/png", :href => "/favicon.png"}/
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/application.css"}/
+
+  %body
+    %h1
+      This is clearly a heading!
+    %p
+      = "This must be some Ruby" if true</code></pre>
 </body>
 </html>
