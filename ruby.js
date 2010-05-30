@@ -6,13 +6,19 @@ CodeHighlighter.addStyle("ruby",{
 		exp  : /\(|\)/
 	},
 	string : {
-		exp  : /'[^'\\]*(\\.[^'\\]*)*'|"[^"\\]*(\\.[^"\\]*)*"/
+		exp  : /'[^']*'|"[^"]*"|`[^`]*`/
 	},
 	keywords : {
-		exp  : /\b(do|end|self|class|def|if|module|yield|then|else|for|until|unless|while|elsif|case|when|break|retry|redo|rescue|require|raise)\b/
+		exp  : /\b(and|break|case|class|def|do|else|elsif|end|for|if|include|module|or|raise|redo|require|rescue|retry|self|then|unless|until|when|while|yield)\b/
 	},
-	/* Added by Shelly Fisher (shelly@agileevolved.com) */
 	symbol : {
-	  exp : /([^:])(:[A-Za-z0-9_!?]+)/
+	  exp : /(:[A-Za-z0-9_!?]+|true|false)/
+	},
+	module_class : {
+	  exp : /::([A-Za-z0-9_!?]+)/,
+	  replacement: "::<span class=\"$0\">$1</span>"
+	},
+	variable : {
+	  exp : /(@@?[^\.\=\[\]\(\)\-\+]+)/
 	}
 });
